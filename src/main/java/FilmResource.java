@@ -1,6 +1,7 @@
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.bit.app.model.Film;
@@ -22,10 +23,10 @@ public class FilmResource {
     }
 
     @GET
-    @Path("/film/{id}")
+    @Path("/film/{filmId}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getFilm(short id) {
-        Optional<Film> film = filmRepository.getFilm(id);
+    public String getFilm(@PathParam("filmId") Long filmId) {
+        Optional<Film> film = filmRepository.getFilmById(filmId);
         return film.isPresent() ? film.get().getTitle() : "Film not found";
     }
 

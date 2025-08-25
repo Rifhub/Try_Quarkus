@@ -15,7 +15,7 @@ public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "film_id", nullable = false)
-    private Short id;
+    private Long id;
 
     @Basic
     @Column(name = "title", nullable = false)
@@ -73,11 +73,11 @@ public class Film {
     @JoinTable(name = "film_actor", schema = "sakila", joinColumns = {@JoinColumn(name = "film_id")}, inverseJoinColumns = {@JoinColumn(name = "actor_id")})
     private List<Actor> actors = new ArrayList<>();
 
-    public Short getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
