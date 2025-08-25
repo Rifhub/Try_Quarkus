@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name = "Actor")
 @Table(name = "actor", schema = "sakila")
@@ -25,6 +27,9 @@ public class Actor {
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "last_update", nullable = false)
     private Instant lastUpdate;
+
+    @ManyToMany(mappedBy = "actors")
+    private Set<Film> films = new HashSet<>();
 
     public Short getId() {
         return id;
