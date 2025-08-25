@@ -28,6 +28,14 @@ public class Actor {
     @Column(name = "last_update", nullable = false)
     private Instant lastUpdate;
 
+    public Set<Film> getFilms() {
+        return films;
+    }
+
+    public void setFilms(Set<Film> films) {
+        this.films = films;
+    }
+
     @ManyToMany(mappedBy = "actors")
     private Set<Film> films = new HashSet<>();
 

@@ -5,6 +5,9 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 @Entity(name = "Film")
 @Table(name = "film", schema = "sakila")
@@ -57,6 +60,18 @@ public class Film {
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "last_update", nullable = false)
     private Instant lastUpdate;
+
+    public List<Actor> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<Actor> actors) {
+        this.actors = actors;
+    }
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name = "film_actor", schema = "sakila", joinColumns = {@JoinColumn(name = "film_id")}, inverseJoinColumns = {@JoinColumn(name = "actor_id")})
+    private List<Actor> actors = new ArrayList<>();
 
     public Short getId() {
         return id;
