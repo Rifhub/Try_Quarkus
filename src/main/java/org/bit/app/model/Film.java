@@ -14,40 +14,46 @@ public class Film {
     @Column(name = "film_id", nullable = false)
     private Short id;
 
+    @Basic
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Basic
     @Lob
     @Column(name = "description")
     private String description;
 
+    @Basic
     @Column(name = "release_year")
     private Integer releaseYear;
 
-    @ColumnDefault("3")
+    @Basic
     @Column(name = "rental_duration", nullable = false)
     private Short rentalDuration;
 
-    @ColumnDefault("4.99")
+    @Basic
     @Column(name = "rental_rate", nullable = false, precision = 4, scale = 2)
     private BigDecimal rentalRate;
 
+    @Basic
     @Column(name = "length")
     private Short length;
 
-    @ColumnDefault("19.99")
+    @Basic
     @Column(name = "replacement_cost", nullable = false, precision = 5, scale = 2)
     private BigDecimal replacementCost;
 
-    @ColumnDefault("'G'")
+    @Basic
     @Lob
-    @Column(name = "rating")
+    @Column(name = "rating" , columnDefinition = "enum('G', 'PG', 'PG-13', 'R', 'NC-17')")
     private String rating;
 
+    @Basic
     @Lob
-    @Column(name = "special_features")
+    @Column(name = "special_features", columnDefinition = "enum('Trailers', 'Deleted Scenes', 'Commentary', 'Behind the Scenes')")
     private String specialFeatures;
 
+    @Basic
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "last_update", nullable = false)
     private Instant lastUpdate;
