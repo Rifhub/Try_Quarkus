@@ -23,7 +23,7 @@ public class Film {
 
     @Basic
     @Lob
-    @Column(name = "description")
+    @Column(name = "description" , columnDefinition = "TEXT")
     private String description;
 
     @Basic
@@ -53,7 +53,7 @@ public class Film {
 
     @Basic
     @Lob
-    @Column(name = "special_features", columnDefinition = "enum('Trailers', 'Deleted Scenes', 'Commentary', 'Behind the Scenes')")
+    @Column(name = "special_features", columnDefinition = "set('Trailers', 'Deleted Scenes', 'Commentary', 'Behind the Scenes')")
     private String specialFeatures;
 
     @Basic
