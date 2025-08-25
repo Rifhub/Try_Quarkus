@@ -13,12 +13,15 @@ public class Actor {
     @Column(name = "actor_id", nullable = false)
     private Short id;
 
+    @Basic
     @Column(name = "first_name", nullable = false, length = 45)
     private String firstName;
 
+    @Basic
     @Column(name = "last_name", nullable = false, length = 45)
     private String lastName;
 
+    @Basic
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "last_update", nullable = false)
     private Instant lastUpdate;
