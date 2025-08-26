@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import org.bit.app.model.Film;
 import org.bit.app.model.Film$;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -26,6 +27,12 @@ public class FilmRepository {
                 .findFirst();
     }
 
+    public Stream<Film> getFilm(short minLength) {
+        return jpaStreamer.stream(Film.class)
+                .filter(film -> film.getLength() >= minLength)
+                .sorted(Film$.length);
+    }
+
     public Stream<Film> paged(long page, short minLength) {
         long offset = PAGE_SIZE * Math.max(0, page - 1);
         return jpaStreamer.stream(Projection.select(Film$.id, Film$.title, Film$.length))
@@ -41,5 +48,13 @@ public class FilmRepository {
         return jpaStreamer.stream(sc)
                 .filter(Film$.title.startsWith(actorName).and(Film$.length.greaterThan(minLength)).and(Film$.releaseYear.greaterThan(year)))
                 .sorted(Film$.length.reversed());
+    }
+
+    public void updateRentalRate(short minLength, Float rate) {
+         jpaStreamer.stream(Film.class)
+                .filter(Film$.length.greaterThan(minLength))
+                .forEach(f -> {
+                    f.setRentalRate(BigDecimal.valueOf(rate));
+                });
     }
 }
