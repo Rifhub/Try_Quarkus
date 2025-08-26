@@ -22,12 +22,15 @@ public class FilmResource {
         return "Hello World";
     }
 
+    // ... existing code ...
     @GET
     @Path("/film/{filmId}")
     @Produces(MediaType.TEXT_PLAIN)
     public String getFilm(@PathParam("filmId") Long filmId) {
-        Optional<Film> film = filmRepository.getFilmById(filmId);
-        return film.isPresent() ? film.get().getTitle() : "Film not found";
+        return filmRepository.getFilmById(filmId)
+                .map(Film::getTitle)
+                .orElse("Film not found");
     }
+
 
 }
