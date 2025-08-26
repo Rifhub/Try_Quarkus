@@ -40,4 +40,18 @@ public class FilmResource {
                 .collect(Collectors.joining("\n"));
     }
 
+    @GET
+    @Path("/filmPage/{actorName}/{minlength}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String actors(@PathParam("actorName")String actorName, @PathParam("minlength") short minLength){
+        return filmRepository.actors(actorName, minLength)
+                .map(film -> String.format("%s (%d min): %s",
+                        film.getTitle(),
+                        film.getLength(),
+                        film.getActors().stream()
+                                .map(a ->String.format("%s %s",a.getFirstName(),a.getLastName()))
+                                .collect(Collectors.joining(", "))))
+                .collect(Collectors.joining("\n"));
+    }
+
 }
