@@ -41,12 +41,13 @@ public class FilmResource {
     }
 
     @GET
-    @Path("/filmPage/{actorName}/{minlength}")
+    @Path("/actors/{actorName}/{minlength}/{year}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String actors(@PathParam("actorName")String actorName, @PathParam("minlength") short minLength){
-        return filmRepository.actors(actorName, minLength)
-                .map(film -> String.format("%s (%d min): %s",
+    public String actors(@PathParam("actorName")String actorName, @PathParam("minlength") short minLength,@PathParam("year") Integer year){
+        return filmRepository.actors(actorName, minLength, year)
+                .map(film -> String.format("%s %s (%d min): %s ",
                         film.getTitle(),
+                        film.getReleaseYear(),
                         film.getLength(),
                         film.getActors().stream()
                                 .map(a ->String.format("%s %s",a.getFirstName(),a.getLastName()))

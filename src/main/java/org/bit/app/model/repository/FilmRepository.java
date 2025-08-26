@@ -35,11 +35,11 @@ public class FilmRepository {
                 .limit(PAGE_SIZE);
     }
 
-    public Stream<Film> actors(String actorName, short minLength) {
+    public Stream<Film> actors(String actorName, short minLength, Integer year) {
         final StreamConfiguration<Film> sc
                 = StreamConfiguration.of(Film.class).joining(Film$.actors);
         return jpaStreamer.stream(sc)
-                .filter(Film$.title.startsWith(actorName).and(Film$.length.greaterThan(minLength)))
+                .filter(Film$.title.startsWith(actorName).and(Film$.length.greaterThan(minLength)).and(Film$.releaseYear.greaterThan(year)))
                 .sorted(Film$.length.reversed());
     }
 }
