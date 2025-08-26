@@ -6,8 +6,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.bit.app.model.Film;
 import org.bit.app.model.repository.FilmRepository;
-
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Path("/")
@@ -52,6 +50,16 @@ public class FilmResource {
                         film.getActors().stream()
                                 .map(a ->String.format("%s %s",a.getFirstName(),a.getLastName()))
                                 .collect(Collectors.joining(", "))))
+                .collect(Collectors.joining("\n"));
+    }
+
+    @GET
+    @Path("/update/{minlength}/{rate}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String update(@PathParam("minlength")short minLength, @PathParam("rate") Float rate){
+        filmRepository.updateRentalRate(minLength, rate);
+        return filmRepository.getFilm(minLength)
+                .map(film -> String.format("%s (%d min) - $%f", film.getTitle(),film.getLength(),film.getRentalRate()))
                 .collect(Collectors.joining("\n"));
     }
 

@@ -6,6 +6,7 @@ import com.speedment.jpastreamer.projection.Projection;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import org.bit.app.model.Film;
 import org.bit.app.model.Film$;
 
@@ -50,6 +51,7 @@ public class FilmRepository {
                 .sorted(Film$.length.reversed());
     }
 
+    @Transactional
     public void updateRentalRate(short minLength, Float rate) {
          jpaStreamer.stream(Film.class)
                 .filter(Film$.length.greaterThan(minLength))
