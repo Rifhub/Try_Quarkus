@@ -8,6 +8,7 @@ import org.bit.app.model.Film;
 import org.bit.app.model.repository.FilmRepository;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Path("/")
 public class FilmResource {
@@ -21,8 +22,6 @@ public class FilmResource {
     public String helloWorld() {
         return "Hello World";
     }
-
-    // ... existing code ...
     @GET
     @Path("/film/{filmId}")
     @Produces(MediaType.TEXT_PLAIN)
@@ -32,5 +31,13 @@ public class FilmResource {
                 .orElse("Film not found");
     }
 
+    @GET
+    @Path("/filmPage/{page}/{minlength}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String paged(@PathParam("page")long page, @PathParam("minlength") short minLength){
+        return filmRepository.paged(page, minLength)
+                .map(film -> String.format("%s (%d min)", film.getTitle(),film.getLength()))
+                .collect(Collectors.joining("\n"));
+    }
 
 }

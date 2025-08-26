@@ -12,6 +12,16 @@ import java.util.List;
 @Entity(name = "Film")
 @Table(name = "film", schema = "sakila")
 public class Film {
+
+    public Film() {
+    }
+
+    public Film(Long id,String title,short length) {
+        this.id = id;
+        this.title = title;
+        this.length = length;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "film_id", nullable = false)
