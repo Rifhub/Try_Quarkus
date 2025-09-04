@@ -7,6 +7,7 @@ import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import net.bytebuddy.asm.Advice;
 import org.bit.app.model.Film;
 import org.bit.app.model.Film$;
 
@@ -36,12 +37,16 @@ public class FilmRepository {
 
     public Stream<Film> paged(long page, short minLength) {
         long offset = PAGE_SIZE * Math.max(0, page - 1);
-        return jpaStreamer.stream(Projection.select(Film$.id, Film$.title, Film$.length))
-                .filter(film -> film.getLength() >= minLength)
+        if (page < 1) {
+            throw new IllegalArgumentException("Page number must be >= 1");
+        }
+        return jpaStreamer.stream(Projection.select(Film$.id, Film$.title, Film$.length, Film$.releaseYear))
+                .filter(Film$.length.greaterThan(minLength))
                 .sorted(Film$.length)
                 .skip(offset)
                 .limit(PAGE_SIZE);
     }
+
 
     public Stream<Film> actors(String actorName, short minLength, Integer year) {
         final StreamConfiguration<Film> sc

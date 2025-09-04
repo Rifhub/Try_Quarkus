@@ -16,10 +16,11 @@ public class Film {
     public Film() {
     }
 
-    public Film(Long id,String title,short length) {
+    public Film(Long id,String title,short length,Integer year) {
         this.id = id;
         this.title = title;
         this.length = length;
+        this.releaseYear = year;
     }
 
     @Id

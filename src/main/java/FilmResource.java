@@ -4,8 +4,11 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.bit.app.model.Film;
 import org.bit.app.model.repository.FilmRepository;
+
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Path("/")
@@ -32,11 +35,27 @@ public class FilmResource {
     @GET
     @Path("/filmPage/{page}/{minlength}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String paged(@PathParam("page")long page, @PathParam("minlength") short minLength){
-        return filmRepository.paged(page, minLength)
-                .map(film -> String.format("%s (%d min)", film.getTitle(),film.getLength()))
+    public Response paged(@PathParam("page") long page, @PathParam("minlength") short minLength) {
+        if (page < 1) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Page number must be >= 1")
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
+
+        String body = filmRepository.paged(page, minLength)
+                .map(film -> String.format(
+                        "%s %s (%s min)",
+                        String.valueOf(film.getTitle()),
+                        String.valueOf(film.getReleaseYear()),
+                        film.getLength() == null ? "?" : String.valueOf(film.getLength())
+                ))
                 .collect(Collectors.joining("\n"));
+
+        return Response.ok(body, MediaType.TEXT_PLAIN).build();
     }
+
+
 
     @GET
     @Path("/actors/{actorName}/{minlength}/{year}")
