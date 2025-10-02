@@ -7,7 +7,6 @@ import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import net.bytebuddy.asm.Advice;
 import org.bit.app.model.Film;
 import org.bit.app.model.Film$;
 

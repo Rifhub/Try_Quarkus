@@ -36,7 +36,7 @@ public class FilmResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String paged(@PathParam("page") long page, @PathParam("minlength") short minLength) {
             return filmRepository.paged(page, minLength)
-                    .map(film -> String.format("%s %s (%d min)",
+                    .map(film -> String.format("%s, %s, (%s min)",
                             film.getTitle(),
                             film.getReleaseYear(),
                             film.getLength()))
